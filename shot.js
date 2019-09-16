@@ -6,10 +6,11 @@ class Shot {
     }
 
     show() {
-        translate(width / 2, height / 2)
+        push()
         rotate(this.angle)
         fill(255)
-        ellipse(this.pos.x, this.pos.y, 10)
+        ellipse(this.pos.x, this.pos.y, 5)
+        pop()
     }
 
     update() {

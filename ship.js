@@ -7,10 +7,9 @@ class Ship {
         noStroke()
 
         push()
-        translate(width / 2, height / 2)
         rotate(this.angle)
         rectMode(CENTER)
-        triangle(0, -10, -10, 10, 10, 10)
+        triangle(0, -10, -5, 5, 5, 5)
         pop()
     }
 
@@ -19,6 +18,12 @@ class Ship {
             this.angle += 5
         } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
             this.angle -= 5
+        }
+
+        if (this.angle === 360) {
+            this.angle = 0
+        } else if (this.angle === -360) {
+            this.angle = 0
         }
     }
 }
