@@ -9,7 +9,7 @@ class Ship {
         push()
         rotate(this.angle)
         rectMode(CENTER)
-        triangle(0, -10, -5, 5, 5, 5)
+        triangle(10, 0, -5, 5, -5, -5)
         pop()
     }
 
