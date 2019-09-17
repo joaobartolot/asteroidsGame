@@ -3,14 +3,16 @@ class Ship {
         this.angle = 0
     }
 
-    show() {
-        noStroke()
+    death(asteroidX, asteroidY, asteroidSize) {
+        // TODO:
+        //    - Death animation
+        //    - Find and fix some bugs
 
-        push()
-        rotate(this.angle)
-        rectMode(CENTER)
-        triangle(10, 0, -5, 5, -5, -5)
-        pop()
+        let d = dist(0, 0, asteroidX, asteroidY)
+
+        if (d < asteroidSize - 10) return true
+
+        return false
     }
 
     rotate() {
@@ -25,5 +27,15 @@ class Ship {
         } else if (this.angle === -360) {
             this.angle = 0
         }
+    }
+
+    show() {
+        noStroke()
+
+        push()
+        rotate(this.angle)
+        rectMode(CENTER)
+        triangle(10, 0, -5, 5, -5, -5)
+        pop()
     }
 }
