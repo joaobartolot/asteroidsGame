@@ -10,20 +10,22 @@ let asteroids = []
 function setup() {
     createCanvas(500, 500)
     angleMode(DEGREES)
-    translate(width / 2, height / 2)
 
     ship = new Ship()
 }
 
 function draw() {
+
     background(70)
     translate(width / 2, height / 2)
 
     ship.show()
     ship.rotate()
+	ship.move()
 
     if (asteroids.length < 20) {
         let asteroid = new Asteroid(floor(random(20, 40)))
+		asteroid.pickLocation()
         asteroids.push(asteroid)
     }
 
@@ -32,7 +34,8 @@ function draw() {
         aster.show()
         aster.update()
 
-        if (ship.death(aster.pos.x, aster.pos.y, aster.size)) {
+        if (ship.death(aster)) {
+			console.log('You died!')
             noLoop()
         }
 
@@ -73,7 +76,7 @@ function draw() {
 
 function keyPressed() {
     if (keyCode === 32) {
-        let shot = new Shot(ship.angle)
+        let shot = new Shot(ship.angle, ship.pos)
         shots.push(shot)
     }
 }

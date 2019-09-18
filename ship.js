@@ -1,41 +1,57 @@
 class Ship {
-    constructor() {
-        this.angle = 0
-    }
+	constructor() {
+		this.angle = 0
+		this.pos = createVector(0, 0)
+	}
 
-    death(asteroidX, asteroidY, asteroidSize) {
-        // TODO:
-        //    - Death animation
-        //    - Find and fix some bugs
+	death(asteroid) {
+		// TODO:
+		//    - Death animation
+		//    - Find and fix some bugs
 
-        let d = dist(0, 0, asteroidX, asteroidY)
+		let d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y)
 
-        if (d < asteroidSize - 10) return true
+		if (d < asteroid.size/2) return true
 
-        return false
-    }
+		return false
+	}
 
-    rotate() {
-        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
-            this.angle += 5
-        } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-            this.angle -= 5
-        }
+	rotate() {
+		if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+				this.angle += 3
+		} else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+				this.angle -= 3
+		}
 
-        if (this.angle === 360) {
-            this.angle = 0
-        } else if (this.angle === -360) {
-            this.angle = 0
-        }
-    }
+		if (this.angle === 360) {
+				this.angle = 0
+		} else if (this.angle === -360) {
+				this.angle = 0
+		}
+	}
 
-    show() {
-        noStroke()
+	move() {
+		this.velocity = createVector(cos(this.angle), sin(this.angle))
 
-        push()
-        rotate(this.angle)
-        rectMode(CENTER)
-        triangle(10, 0, -5, 5, -5, -5)
-        pop()
-    }
+		if (keyIsDown(UP_ARROW)) {
+			this.pos.x += this.velocity.x
+			this.pos.y += this.velocity.y
+		} else if (keyIsDown(DOWN_ARROW)) {
+			this.pos.x -= this.velocity.x
+			this.pos.y -= this.velocity.y
+		}
+
+	}
+
+	show() {
+
+		push()
+		noFill()
+		stroke(255)
+		translate(this.pos.x, this.pos.y)
+		rotate(this.angle)
+		rectMode(CENTER)
+		triangle(10, 0, -5, 5, -5, -5)
+		pop()
+	}
 }

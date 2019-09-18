@@ -1,6 +1,6 @@
 class Shot {
-    constructor(angle) {
-        this.pos = createVector(0, 0)
+    constructor(angle, origin) {
+        this.pos = createVector(origin.x, origin.y)
         this.velocity = createVector(cos(angle), sin(angle))
     }
 
@@ -15,10 +15,11 @@ class Shot {
     }
 
     show() {
-        push()
-        fill(255)
-        ellipse(this.pos.x, this.pos.y, 5)
-        pop()
+			push()
+			noStroke()
+			fill(255)
+			ellipse(this.pos.x, this.pos.y, 5)
+			pop()
     }
 
     update() {
