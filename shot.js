@@ -4,10 +4,10 @@ class Shot {
         this.velocity = createVector(cos(angle), sin(angle))
     }
 
-    hits(asteroidX, asteroidY, asteroidSize) {
-        let distance = dist(this.pos.x, this.pos.y, asteroidX, asteroidY)
+    hits(asteroid) {
+        let distance = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y)
 
-        if (distance < asteroidSize) {
+        if (distance < asteroid.size/2) {
             return true
         } else {
             return false

@@ -1,8 +1,9 @@
 /*
 TODO:
-    - Delete the shots if it past the width or height
+	- Create random skills after player achieved a new level!
 */
 let ship
+let asteroidNumber = 50
 
 let shots = []
 let asteroids = []
@@ -23,8 +24,8 @@ function draw() {
     ship.rotate()
 	ship.move()
 
-    if (asteroids.length < 20) {
-        let asteroid = new Asteroid(floor(random(20, 40)))
+    if (asteroids.length < asteroidNumber) {
+        let asteroid = new Asteroid(floor(random(30, 50)))
 		asteroid.pickLocation()
         asteroids.push(asteroid)
     }
@@ -46,11 +47,11 @@ function draw() {
         }
 
         shots.forEach((element, index2) => {
-            if (element.hits(aster.pos.x, aster.pos.y, aster.size / 2)) {
+            if (element.hits(aster)) {
                 asteroids.splice(index, 1)
                 shots.splice(index2, 1)
 
-                if (aster.size > 10) {
+                if (aster.size > 17) {
                     let new1 = new Asteroid(aster.size / 2, aster.pos.x, aster.pos.y)
                     let new2 = new Asteroid(aster.size / 2, aster.pos.x, aster.pos.y)
 
@@ -79,4 +80,10 @@ function keyPressed() {
         let shot = new Shot(ship.angle, ship.pos)
         shots.push(shot)
     }
+	if (keyCode === 82) {
+		asteroids = []
+		shots = []
+		ship = new Ship()
+		loop()
+	}
 }
