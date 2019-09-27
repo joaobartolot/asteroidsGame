@@ -2,21 +2,27 @@
 TODO:
 	- Create random skills after player achieved a new level!
 */
-let ship
+let ship, player
 let asteroidNumber = 50
 
 let shots = []
 let asteroids = []
+
+let p
 
 function setup() {
     createCanvas(500, 500)
     angleMode(DEGREES)
 
     ship = new Ship()
+    player = new Player()
+	
+	p = createP()
+	console.log(p)
 }
 
 function draw() {
-
+	p.html(`Score: ${player.score}`)
     background(70)
     translate(width / 2, height / 2)
 
@@ -48,6 +54,8 @@ function draw() {
 
         shots.forEach((element, index2) => {
             if (element.hits(aster)) {
+				player.score++
+				console.log(player.score)
                 asteroids.splice(index, 1)
                 shots.splice(index2, 1)
 

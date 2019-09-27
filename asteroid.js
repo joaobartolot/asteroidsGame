@@ -42,7 +42,6 @@ class Asteroid {
 	}
 
 	update () {
-		this.pos.x += this.velocity.x
-		this.pos.y += this.velocity.y
+		this.pos.add(this.velocity)
 	}
 }
