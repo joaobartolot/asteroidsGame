@@ -2,11 +2,7 @@ class Ship {
 	constructor() {
 		this.angle = 0
 		this.pos = createVector(0, 0)
-		this.score = 0
-	}
-
-	scoreUp (shotHits) {
-		if (shotHits) this.score++
+		this.velocity = createVector(0, 0)
 	}
 
 	death(asteroid) {
@@ -16,38 +12,40 @@ class Ship {
 
 		let d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y)
 
-		if (d < (asteroid.size/2)+5) return true
+		if (d < (asteroid.size / 2) + 5) return true
 
 		return false
-
-		console.log(this.score)
 	}
 
 	rotate() {
 		if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
-				this.angle -= 3
+			this.angle -= 5
 		} else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-				this.angle += 3
+			this.angle += 5
 		}
 
 		if (this.angle === 360) {
-				this.angle = 0
+			this.angle = 0
 		} else if (this.angle === -360) {
-				this.angle = 0
+			this.angle = 0
 		}
 	}
 
-	move() {
-		this.velocity = createVector(cos(this.angle), sin(this.angle))
-
+	boost() {
 		if (keyIsDown(UP_ARROW)) {
-			this.pos.x += this.velocity.x
-			this.pos.y += this.velocity.y
+			this.acceleration = createVector(cos(this.angle), sin(this.angle))
+			this.acceleration.mult(0.1)
+			this.velocity.add(this.acceleration)
 		} else if (keyIsDown(DOWN_ARROW)) {
-			this.pos.x -= this.velocity.x
-			this.pos.y -= this.velocity.y
+			this.acceleration = createVector(cos(this.angle), sin(this.angle))
+			this.acceleration.mult(0.1)
+			this.velocity.sub(this.acceleration)
 		}
+	}
 
+	update() {
+		this.pos.add(this.velocity)
+		this.velocity.mult(0.98)
 	}
 
 	show() {

@@ -3,37 +3,34 @@ TODO:
 	- Create random skills after player achieved a new level!
 */
 let ship, player
-let asteroidNumber = 50
+let asteroidNumber = 100
 
 let shots = []
 let asteroids = []
 
-let p
+let div
 
 function setup() {
-    createCanvas(500, 500)
+    div = createDiv("Score: 0").size(window.innerWidth, 20).style("background:transparent;color:white;position:absolute;")
+    createCanvas(window.innerWidth, window.innerHeight - 5)
     angleMode(DEGREES)
 
     ship = new Ship()
     player = new Player()
-	
-	p = createP()
-	console.log(p)
+
 }
 
 function draw() {
-	p.html(`Score: ${player.score}`)
-    background(70)
+    background(0)
     translate(width / 2, height / 2)
 
     ship.show()
     ship.rotate()
-	ship.move()
+    ship.boost()
+    ship.update()
 
     if (asteroids.length < asteroidNumber) {
-        let asteroid = new Asteroid(floor(random(30, 50)))
-		asteroid.pickLocation()
-        asteroids.push(asteroid)
+        asteroids.push(new Asteroid(floor(random(30, 50))))
     }
 
 
@@ -42,7 +39,7 @@ function draw() {
         aster.update()
 
         if (ship.death(aster)) {
-			console.log('You died!')
+            console.log('You died!')
             noLoop()
         }
 
@@ -54,11 +51,16 @@ function draw() {
 
         shots.forEach((element, index2) => {
             if (element.hits(aster)) {
-				player.score++
-				console.log(player.score)
+                // Update the player score
+                player.scoreUp(aster)
+                // Update the score text
+                div.html(`Score: ${player.score}`)
+
+                // Remove the asteroid and the shot that got hit
                 asteroids.splice(index, 1)
                 shots.splice(index2, 1)
 
+                // Create 2 new asteroids with half of the size
                 if (aster.size > 17) {
                     let new1 = new Asteroid(aster.size / 2, aster.pos.x, aster.pos.y)
                     let new2 = new Asteroid(aster.size / 2, aster.pos.x, aster.pos.y)
@@ -76,6 +78,7 @@ function draw() {
 
         let d = dist(element.pos.x, element.pos.y, 0, 0)
 
+        // Remove the shots from the array
         if (d > width) {
             shots.splice(index, 1)
         }
@@ -85,13 +88,13 @@ function draw() {
 
 function keyPressed() {
     if (keyCode === 32) {
-        let shot = new Shot(ship.angle, ship.pos)
+        let shot = new Shot(ship)
         shots.push(shot)
     }
-	if (keyCode === 82) {
-		asteroids = []
-		shots = []
-		ship = new Ship()
-		loop()
-	}
+    if (keyCode === 82) {
+        asteroids = []
+        shots = []
+        ship = new Ship()
+        loop()
+    }
 }
