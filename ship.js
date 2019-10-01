@@ -43,6 +43,11 @@ class Ship {
 		}
 	}
 
+	edge() {
+		if (this.pos.x > width / 2 || this.pos.x < -width / 2) this.pos.x *= -1
+		if (this.pos.y > height / 2 || this.pos.y < -height / 2) this.pos.y *= -1
+	}
+
 	update() {
 		this.pos.add(this.velocity)
 		this.velocity.mult(0.98)
